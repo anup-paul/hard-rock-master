@@ -16,12 +16,11 @@ const inputSongs = async () => {
         const data = await response.json();
         displaySongs(data.data);
     }
-    catch(error)
-    {
-       //displayError(error);
-       displayError("SomeThing went wrong please try again later")
+    catch (error) {
+        //displayError(error);
+        displayError("SomeThing went wrong please try again later")
     }
-    
+
 }
 
 const displaySongs = songs => {
@@ -47,12 +46,26 @@ const displaySongs = songs => {
     });
 }
 
-const displayLyrics = (artist, title) => {
+// const displayLyrics = (artist, title) => {
 
-    fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`)
-        .then(res => res.json())
-        .then(data => showLyrics(data.lyrics))
-        .catch(error => displayError("Something went wrong please try again later"))
+//     fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`)
+//         .then(res => res.json())
+//         .then(data => showLyrics(data.lyrics))
+//         .catch(error => displayError("Something went wrong please try again later"))
+// }
+
+
+//using async and await
+const displayLyrics = async (artist, title) => {
+    try {
+        const response = await fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`);
+        const data = await response.json();
+        showLyrics(data.lyrics)
+    }
+    catch(error)
+    {
+        displayError("Something went wrong please try again later");
+    }
 }
 
 const showLyrics = (data) => {
@@ -62,8 +75,7 @@ const showLyrics = (data) => {
     songContainer.style.display = 'none';
 }
 
-const displayError = error =>
-{
+const displayError = error => {
     const errorTag = document.getElementById('error-handle');
     errorTag.innerText = error;
 }
